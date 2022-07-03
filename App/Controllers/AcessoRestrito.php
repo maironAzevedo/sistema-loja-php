@@ -9,17 +9,16 @@ use GUMP as Validador;
 class AcessoRestrito extends BaseController
 {
     protected $filters = [
-        'email' => 'trim|sanitize_email',
+        'cpf' => 'trim|sanitize_string',
         'senha' => 'trim|sanitize_string',
         'captcha' => 'trim|sanitize_string'
     ];
 
     protected $rules = [
-        'email'    => 'required|min_len,8|max_len,255',
+        'cpf'    => 'required',
         'senha'  => 'required',
         'captcha'  => 'required|validar_CAPTCHA_CODE'
     ];
-
 
     function __construct() {
         session_start();
@@ -62,15 +61,15 @@ class AcessoRestrito extends BaseController
                     $hash_senha_fake = password_hash($senha_fake, PASSWORD_ARGON2I);
 
                     // busca o usuario
-                    $usuarioModel = $this->model('UserModel');
-                    $usuario = $usuarioModel->getUsuarioEmail($_POST['email']);
+                    $funcionarioModel = $this->model('FuncionarioModel');
+                    $funcionario = $funcionarioModel->getFuncionarioPorCPF($_POST['cpf']);
 
-                    if (!empty($usuario)) :
-                        $senha_hash = $usuario['senha']; // achou o usuário usa hash do banco
+                    if (!empty($funcionario)) :
+                        $senha_hash = password_hash($funcionario['senha'], PASSWORD_ARGON2I); // achou o usuário usa hash do banco
                     else :
                         $senha_hash = $hash_senha_fake;  // não achou o usuário usa hash fake
                     endif;
-
+                    
                     if (password_verify($senha_enviada, $senha_hash)) :
 
                         // apagar CAPTCHA_CODE
@@ -79,9 +78,9 @@ class AcessoRestrito extends BaseController
                         // regenerar a sessão
                         session_regenerate_id(true);
 
-                        $_SESSION['id'] = $usuario['id'];
-                        $_SESSION['nomeUsuario'] = $usuario['nome'];
-                        $_SESSION['emailUsuario'] = $usuario['email'];
+                        $_SESSION['id'] = $funcionario['id'];
+                        $_SESSION['nomeUsuario'] = $funcionario['nome'];
+                        $_SESSION['cpfUsuario'] = $funcionario['cpf'];
                        
                         Funcoes::redirect("Dashboard");  // acesso área restrita
 
