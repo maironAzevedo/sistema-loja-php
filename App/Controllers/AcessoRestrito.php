@@ -81,6 +81,7 @@ class AcessoRestrito extends BaseController
                         $_SESSION['id'] = $funcionario['id'];
                         $_SESSION['nomeUsuario'] = $funcionario['nome'];
                         $_SESSION['cpfUsuario'] = $funcionario['cpf'];
+                        $_SESSION['papelUsuario'] = $funcionario['papel'];
                        
                         Funcoes::redirect("Dashboard");  // acesso área restrita
 
@@ -122,7 +123,6 @@ class AcessoRestrito extends BaseController
         session_unset();
         session_destroy();
         Funcoes::redirect();
-
     }
 
 }
