@@ -18,6 +18,7 @@ $route->post("/logar", "AcessoRestrito:logar");  // <= rota para metodo POST do 
 $route->get("/Dashboard", "Dashboard:index");
 $route->get("/logout", "AcessoRestrito:logout");
 $route->get("/painelusuario", "User:index");
+$route->get("/painelcliente", "Cliente:index");
 /**
  * parte restrita - usuários
  */
