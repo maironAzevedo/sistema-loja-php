@@ -36,16 +36,16 @@ class FuncionarioModel extends BaseModel
         }
     }
 
-    public function update($usuario)
+    public function update($funcionario)
     {
         try {
             $sql = "UPDATE funcionarios SET nome = ?, papel = ? WHERE id = ?";
             $conn = FuncionarioModel::getConexao();
 
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue(1, $usuario->getNome());
-            $stmt->bindValue(2, $usuario->getPapel());
-            $stmt->bindValue(3, $usuario->getId());
+            $stmt->bindValue(1, $funcionario->getNome());
+            $stmt->bindValue(2, $funcionario->getPapel());
+            $stmt->bindValue(3, $funcionario->getId());
             $stmt->execute();
             $conn = null;
         } catch (PDOException $e) {
@@ -56,7 +56,7 @@ class FuncionarioModel extends BaseModel
     public function delete($id)
     {
         try {
-            $sql = "DELETE FROM usuarios WHERE id = ?";
+            $sql = "DELETE FROM funcionarios WHERE id = ?";
             $conn = FuncionarioModel::getConexao();
 
             $stmt = $conn->prepare($sql);
