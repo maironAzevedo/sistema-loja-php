@@ -7,7 +7,7 @@ define('SENHA','admin');         // senha usuário da base de dados
 
 //Constante que indica a URL básica da aplicação
 
-define("URL_BASE", "http://localhost:8080/sistema-loja-php");
+define("URL_BASE", "http://localhost/sistema-loja-php");
 
 //Constante que indica a URL básica da images
 define("URL_IMG", URL_BASE."/public/images/");
@@ -25,13 +25,13 @@ define("FONTAWESOME", URL_BASE."/public/fontawesome/css/all.css");
 define('CSRF_TOKEN_SECRET', 'iyHS4##SiPcV9tIZ');
 
 // Caminho para a imagem Captcha
-define('DIR_IMG_CAPTCHA', "C:/wamp64/www/sistema-loja-php/App/writable/");
+define('DIR_IMG_CAPTCHA', "E:/DocDan_Wampserver/www/sistema-loja-php/App/writable/");
 
 // Caminho para a imagem upload
-define('DIR_IMG_UPLOAD', "C:/wamp64/www/sistema-loja-php/public/upload/");
+define('DIR_IMG_UPLOAD', "E:/DocDan_Wampserver/www/sistema-loja-php/public/upload/");
 
 // URL imagem upload
-define('URL_IMG_UPLOAD', "http://localhost:8080/sistema-loja-php/upload/");
+define('URL_IMG_UPLOAD', "http://localhost/sistema-loja-php/upload/");
 
 // Quantidade de registros exibidos na página
 define("REGISTROS_PAG", 4);
