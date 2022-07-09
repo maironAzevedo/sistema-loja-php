@@ -2,7 +2,7 @@
     function load_data(page) {
 
         var ajax_request = new XMLHttpRequest();
-        ajax_request.open('GET', '<?= url('navega') . '/' ?>' + page);
+        ajax_request.open('GET', '<?= url('navegacliente') . '/' ?>' + page);
         ajax_request.send();
         ajax_request.onreadystatechange = function() {
             if (ajax_request.readyState == 4 && ajax_request.status == 200) {
@@ -19,53 +19,54 @@
 
     $(document).ready(function() {
 
-        // carregar dos dados dos usuarios
+        // carregar dos dados dos clientes
         load_data(1);
 
         // ************************************************************************
-        // INCLUIR NOVO USUÁRIO
+        // INCLUIR NOVO CLIENTE
 
-        // clicar no botão de novo usuario
+        // clicar no botão de novo cliente
         $('#btIncluir').on('click', function() {
 
             $("#nome").val("");
             $("#cpf").val("");
-            $("#endereco").val(""); 
-            $("#bairro").val(""); 
-            $("#cidade").val(""); 
-            $("#uf").val(""); 
-            $("#cep").val(""); 
-            $("#telefone").val(""); 
-            $("#email").val(""); 
+            $("#endereco").val("");
+            $("#bairro").val("");
+            $("#cidade").val("");
+            $("#uf").val("");
+            $("#cep").val("");
+            $("#telefone").val("");
+            $("#email").val(""); // limpar os inputs
+            //$("#senha").val(""); // limpar as mensagens de erros de validação
             $("#mensagem_erro").html("");
             $("#mensagem_erro").removeClass("alert alert-danger")
 
-            // $.ajax({
-            //     url: "<?= url('incluirusuario') ?>", // chamar o método para obter o CSRF token
-            //     type: "GET",
-            //     dataType: "JSON",
-            //     success: function(data) {
-            //         // receber o CSRF token o colocá-lo no input hidden do form modal
-            //         $('[name="CSRF_token"]').val(data.token);
-            //         // apresentar o modal
-            //         $("#modalNovoUsuario").modal('show');
-            //     },
-            //     error: function(data) {
-            //         Swal.fire({
-            //             title: "Erro",
-            //             text: "Erro Inesperado",
-            //             icon: "error",
-            //         });
-            //         $("#modalNovoUsuario").modal('hide');
-            //     }
-            // });
+            $.ajax({
+                url: "<?= url('incluircliente') ?>", // chamar o método para obter o CSRF token
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    // receber o CSRF token o colocá-lo no input hidden do form modal
+                    $('[name="CSRF_token"]').val(data.token);
+                    // apresentar o modal
+                    $("#modalNovoCliente").modal('show');
+                },
+                error: function(data) {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Erro Inesperado",
+                        icon: "error",
+                    });
+                    $("#modalNovoCliente").modal('hide');
+                }
+            });
         })
 
 
         // salvar os dados da inclusão
         $('#btSalvarInclusao').on('click', function() {
             $.ajax({
-                url: "<?= url('salvarinclusao') ?>", // chama o método para inclusão
+                url: "<?= url('salvarinclusaocliente') ?>", // chama o método para inclusão
                 type: "POST",
                 data: $('#formInclusao').serialize(), //codifica o formulário como uma string para envio.
                 dataType: "JSON",
@@ -74,10 +75,10 @@
                     if (data.status) //if success close modal and reload ajax table
                     {  Swal.fire({
                             title: "Sucesso",
-                            text: "Usuário Incluído Com Sucesso",
+                            text: "Cliente Incluído Com Sucesso",
                             icon: "success",
                         });
-                        $("#modalNovoUsuario").modal('hide');
+                        $("#modalNovoCliente").modal('hide');
                     } else {
                         $('[name="mensagem_erro"]').addClass('alert alert-danger');
                         $('[name="mensagem_erro"]').html(data.erros);
@@ -89,7 +90,7 @@
                         text: "Erro Inesperado",
                         icon: "error",
                     });
-                    $("#modalNovoUsuario").modal('hide');
+                    $("#modalNovoCliente").modal('hide');
                 }
             });
         })
@@ -103,15 +104,22 @@
 
         $(document).on("click", "#btAlterar", function() {
 
-            var hashid = $(this).attr("data-hashid");
+            var id = $(this).attr("data-id");
 
             $("#nome_alteracao").val("");
+            $("#cpf_alteracao").val("");
+            $("#endereco_alteracao").val("");
+            $("#bairro_alteracao").val("");
+            $("#cidade_alteracao").val("");
+            $("#uf_alteracao").val("");
+            $("#cep_alteracao").val("");
+            $("#telefone_alteracao").val("");
             $("#email_alteracao").val("");
             $("#mensagem_erro_alteracao").html("");
             $("#mensagem_erro_alteracao").removeClass("alert alert-danger")
 
             $.ajax({
-                url: "<?= url('alteracaousuario') ?>/" + hashid,
+                url: "<?= url('alteracaocliente') ?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
@@ -120,10 +128,17 @@
                     $('[name="CSRF_token"]').val(data.token);
 
                     $('[name="nome_alteracao"]').val(data.nome);
+                    $('[name="cpf_alteracao"]').val(data.cpf);
+                    $('[name="endereco_alteracao"]').val(data.endereco);
+                    $('[name="bairro_alteracao"]').val(data.bairro);
+                    $('[name="cidade_alteracao"]').val(data.cidade);
+                    $('[name="uf_alteracao"]').val(data.uf);
+                    $('[name="cep_alteracao"]').val(data.cep);
+                    $('[name="telefone_alteracao"]').val(data.telefone);
                     $('[name="email_alteracao"]').val(data.email);
-                    $('[name="hashid_alteracao"]').val(data.hashid);
+                    $('[name="id_alteracao"]').val(data.id);
 
-                    $("#modalAlterarUsuario").modal('show');
+                    $("#modalAlterarCliente").modal('show');
                 },
                 error: function(data) {
                     Swal.fire({
@@ -131,17 +146,17 @@
                         text: "Erro Inesperado",
                         icon: "error",
                     });
-                    $("#modalAlterarUsuario").modal('hide');
+                    $("#modalAlterarCliente").modal('hide');
                 }
             });
 
         });
 
-        // salvar dados da altercao do usuario
+        // salvar dados da altercao do cliente
         $('#btSalvarAlteracao').on('click', function() {
 
             $.ajax({
-                url: "<?= url('gravaralteracao') ?>",
+                url: "<?= url('gravaralteracaocliente') ?>",
                 type: "POST",
                 data: $('#formAltercao').serialize(),
                 dataType: "JSON",
@@ -154,10 +169,10 @@
                     {
                         Swal.fire({
                             title: "Sucesso",
-                            text: "Usuário Alterado Com Sucesso",
+                            text: "Cliente Alterado Com Sucesso",
                             icon: "success",
                         });
-                        $("#modalAlterarUsuario").modal('hide');
+                        $("#modalAlterarCliente").modal('hide');
 
                     } else {
 
@@ -172,7 +187,7 @@
                         text: "Erro Inesperado",
                         icon: "error",
                     });
-                    $("#modalAlterarUsuario").modal('hide');
+                    $("#modalAlterarCliente").modal('hide');
 
                 }
             });
@@ -185,11 +200,11 @@
         // observe que o botão é inserido dinamicamente na página
         $(document).on("click", "#btExcluir", function() {
 
-            var hashid = $(this).attr("data-hashid");
+            var id = $(this).attr("data-id");
             var nome = $(this).attr("data-nome");
 
             Swal.fire({
-                title: 'Confirma a Exclusão do Usuário?',
+                title: 'Confirma a Exclusão do Cliente?',
                 text: nome,
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -200,16 +215,15 @@
                 if (result.isConfirmed) {
 
                     $.ajax({
-                        url: "<?= url('excluirusuario') ?>/" + hashid,
+                        url: "<?= url('excluircliente') ?>/" + id,
                         type: "GET",
                         dataType: "JSON",
                         success: function(data) {
-
                             if (data.status) //if success close modal and reload ajax table
                             {
                                 Swal.fire({
                                     title: "Sucesso",
-                                    text: "Usuário Excluido Com Sucesso",
+                                    text: "Cliente Excluido Com Sucesso",
                                     icon: "success",
                                 });
 

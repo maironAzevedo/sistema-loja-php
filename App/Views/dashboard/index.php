@@ -27,7 +27,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['nomeUsuario'])) : ?>
         <div class="row">
             <div class="card mt-3 border-0">
                 <div class="card-body px-2">
-                    <a href="<?= url('painelcliente') ?>" class="btn btn-outline-success">Clientes</a>
+                    <a href="<?= url('clientes') ?>" class="btn btn-outline-success">Clientes</a>
                 </div>
             </div>
             <div class="card mt-3 border-0">

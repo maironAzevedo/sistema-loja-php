@@ -2,8 +2,8 @@
 // Configuração do BD
 define('HOST', 'localhost');// onde está o banco de dados
 define('DB','estoque');      // nome da base de dados
-define('USUARIO','root');   // usuário da base de dados
-define('SENHA','');         // senha usuário da base de dados
+define('USUARIO','admin');   // usuário da base de dados
+define('SENHA','admin');         // senha usuário da base de dados
 
 //Constante que indica a URL básica da aplicação
 
