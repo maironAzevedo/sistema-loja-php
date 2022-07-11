@@ -25,29 +25,29 @@ class AcessoRestrito extends BaseController
 
     function __construct() {
         session_start();
-
     }
 
     public function login()
     {
-        // gera o CAPTCHA_CODE e guarda na sessão 
-        $_SESSION['CAPTCHA_CODE'] = Funcoes::gerarCaptcha();
-        $imagem = Funcoes::gerarImgCaptcha($_SESSION['CAPTCHA_CODE']);
-        // gera o CSRF_token e guarda na sessão
+        if(!isset($_SESSION['CAPTCHA_CODE'])) { 
+            $_SESSION['CAPTCHA_CODE'] = Funcoes::gerarCaptcha();
+        }
         $_SESSION['CSRF_token'] = Funcoes::gerarTokenCSRF();
-        $data = ['imagem' => $imagem];
-        // chama a view
+        $data = ['imagem' => Funcoes::gerarImgCaptcha($_SESSION['CAPTCHA_CODE'])];
         $this->view('acessorestrito/login', $data);
     }
 
     public function logar()
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") :
-
+            
             Validador::add_validator("validar_CAPTCHA_CODE", function ($field, $input) {
                 return $input['captcha'] === $_SESSION['CAPTCHA_CODE'];
             }, 'Código de Segurança incorreto.');
 
+            echo "captcha code gerado: " . $_SESSION['CAPTCHA_CODE'] . "\n";
+            echo "captcha code digitado: " . $_POST['captcha'];
+            
             $validacao = new Validador("pt-br");
 
             $post_filtrado = $validacao->filter($_POST, $this->filters);
@@ -59,14 +59,9 @@ class AcessoRestrito extends BaseController
 
                     $senha_enviada = $_POST['senha'];
 
-                    /* gera uma senha fake
-                    $senha_fake   = random_bytes(64);
-                    $hash_senha_fake = password_hash($senha_fake, PASSWORD_ARGON2I);*/
-
                     // busca o funcionario
                     $funcionarioModel = $this->model('FuncionarioModel');
                     $funcionario = $funcionarioModel->getFuncionarioCpf($_POST['cpf']);
-
 
                     if (!empty($funcionario)) :
                         $senha_bd = $funcionario['senha']; // achou o usuário usa hash do banco
@@ -86,15 +81,8 @@ class AcessoRestrito extends BaseController
                         $_SESSION['nomeFuncionario'] = $funcionario['nome'];
                         $_SESSION['cpfFuncionario'] = $funcionario['cpf'];
                         $_SESSION['papelFuncionario'] = $funcionario['papel'];
-                       
-                        if($funcionario['papel'] == 0):
-                            Funcoes::redirect("DashboardAdmin");  // acesso área restrita do admin
-                        elseif($funcionario['papel'] == 1):
-                            Funcoes::redirect("DashboardVendedor");  // acesso área restrita do vendedor
-                        elseif($funcionario['papel'] == 2):
-                            Funcoes::redirect("DashboardComprador");  // acesso área restrita do comprador
-                        endif;
 
+                        Funcoes::redirect("Dashboard");
                     else :
                         $mensagem = ["CPF e/ou Senha incorreta"];
                         $_SESSION['CAPTCHA_CODE'] = Funcoes::gerarCaptcha(); // guarda o captcha_code na sessão 
@@ -121,7 +109,7 @@ class AcessoRestrito extends BaseController
                     'mensagens' => $mensagem
                 ];
 
-                $this->view('acessorestrito/login', $data);
+                // $this->view('acessorestrito/login', $data);
             endif;
         else : // não POST
             Funcoes::redirect();

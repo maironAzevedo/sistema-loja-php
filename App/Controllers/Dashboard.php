@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Core\BaseController;
 use App\core\Funcoes;
 
-class DashboardVendedor extends BaseController
+class Dashboard extends BaseController
 {
     function __construct()
     {
@@ -17,6 +17,6 @@ class DashboardVendedor extends BaseController
 
     public function index()
     {
-        $this->view('dashboardVendedor/index');
+        $this->view('dashboard/index');
     }
 }

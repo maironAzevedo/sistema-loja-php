@@ -1,9 +1,20 @@
-<h1>Dashboard Vendedor</h1>
 <?php
-if (isset($_SESSION['id']) && isset($_SESSION['nomeFuncionario'])) : ?>
 
+switch ($_SESSION['papelFuncionario']) {
+    case 0:
+        $papelFuncionario = "Administrador";
+        break;
+    case 1:
+        $papelFuncionario = "Vendedor";
+        break;
+    case 2:
+        $papelFuncionario = "Comprador";
+        break;
+}
+
+if (isset($_SESSION['id']) && isset($_SESSION['nomeFuncionario'])) : ?>
     <div class="alert alert-success" role="alert">
-        <h5>Vendedor logado com sucesso</h5>
+        <h5><?= $papelFuncionario ?> logado com sucesso</h5>
     </div>
     <div class="row">
         <div class="card mt-3 border-0">
@@ -16,4 +27,5 @@ if (isset($_SESSION['id']) && isset($_SESSION['nomeFuncionario'])) : ?>
             </div>
         </div>
     </div>
-<?php endif; ?>
+<?php endif; 
+?>

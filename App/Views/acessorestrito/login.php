@@ -1,5 +1,6 @@
 <?php
-if (isset($data['mensagens'])) { ?>
+
+if (isset($data['mensagens'])) : ?>
   <div class="col-6">
     <div class="alert alert-danger" role="alert">
       <?php
@@ -12,7 +13,7 @@ if (isset($data['mensagens'])) { ?>
     </div>
   </div>
 <?php
-}
+endif;
 ?>
 <form action="<?= URL_BASE . '/logar' ?>" method="post">
   <input id="CSRF_token" type="hidden" name="CSRF_token" value="<?= $_SESSION['CSRF_token'] ?>">
@@ -20,11 +21,11 @@ if (isset($data['mensagens'])) { ?>
     
     <div class="form-group">
       <label for="cpf">CPF</label>
-      <input id="cpf" class="form-control" type="cpf" name="cpf" value="" placeholder="Digite aqui seu CPF">
+      <input id="cpf" class="form-control" type="cpf" name="cpf" value="" placeholder="Digite aqui seu CPF" required>
     </div>
     <div class="form-group">
       <label for="senha">Senha</label>
-      <input id="senha" class="form-control" type="password" name="senha" value="" placeholder="Digite aqui sua senha">
+      <input id="senha" class="form-control" type="password" name="senha" value="" placeholder="Digite aqui sua senha" required>
     </div>
 
     <div class="form-group">
@@ -32,7 +33,7 @@ if (isset($data['mensagens'])) { ?>
     </div>
 
     <div class="form-group">
-      <input id="captcha" class="form-control" type="text" name="captcha" placeholder="Digite o código acima">
+      <input id="captcha" class="form-control" type="text" name="captcha" placeholder="Digite o código acima" required>
     </div>
 
     <div class="form-group">

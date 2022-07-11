@@ -16,10 +16,10 @@ $route->post("/logar", "AcessoRestrito:logar");  // <= rota para metodo POST do 
  * parte restrita
  */
 $route->get("/logout", "AcessoRestrito:logout");
+$route->get("/Dashboard", "Dashboard:index");
 /**
  * parte restrita - vendedores
  */
-$route->get("/DashboardVendedor", "DashboardVendedor:index");
 //CRUD Clientes
 $route->get("/Clientes", "Cliente:index");
 $route->get("/incluircliente", "Cliente:incluir");
@@ -39,7 +39,6 @@ $route->get("/excluirvenda/{id}", "Venda:excluirVenda");
 /**
  * parte restrita - compradores
  */
-$route->get("/DashboardComprador", "DashboardComprador:index");
 //CRUD Fornecedores
 $route->get("/Fornecedores", "Fornecedor:index");
 $route->get("/incluirfornecedor", "Fornecedor:incluir");

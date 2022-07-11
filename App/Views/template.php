@@ -25,16 +25,21 @@
                 <a class="nav-item nav-link active text-primary text-right" href="<?= URL_BASE ?>/home">Home <span class="sr-only">(current)</span></a>
                 <?php
                 if (isset($_SESSION['id'])) : ?>
+                    <a class="nav-item nav-link active text-primary text-right" href="<?= URL_BASE ?>/Dashboard">Dashboard <span class="sr-only"></span></a>
+
                     <?php switch ($_SESSION['papelFuncionario']):
-                        case 0: // Administrador ?>
+                        case 0: // Administrador 
+                    ?>
                             <?php break; ?>
                         <?php
-                        case 1: // Vendedor ?>
+                        case 1: // Vendedor 
+                        ?>
                             <a class="nav-item nav-link text-primary text-right" href="<?= URL_BASE ?>/Clientes">Clientes<span class="sr-only"></a>
                             <a class="nav-item nav-link text-primary text-right" href="<?= URL_BASE ?>/Vendas">Vendas<span class="sr-only"></a>
                             <?php break; ?>
                         <?php
-                        case 2: // Comprador ?>
+                        case 2: // Comprador 
+                        ?>
                             <a class="nav-item nav-link text-primary text-right" href="<?= URL_BASE ?>/Fornecedores">Fornecedores<span class="sr-only"></a>
                             <a class="nav-item nav-link text-primary text-right" href="<?= URL_BASE ?>/Categorias">Categorias<span class="sr-only"></a>
                             <a class="nav-item nav-link text-primary text-right" href="<?= URL_BASE ?>/Compras">Compras<span class="sr-only"></a>
@@ -42,7 +47,7 @@
                     <?php endswitch; ?>
                     <a class="nav-item nav-link text-danger container text-right" href="<?= URL_BASE ?>/logout">Logout</a>
                 <?php else : ?>
-                    <a class="nav-item nav-link" href="<?= URL_BASE ?>/login">Área Restrita</a>
+                    <a class="nav-item nav-link text-primary container text-right" href="<?= URL_BASE ?>/login">Login</a>
                 <?php endif ?>
             </div>
         </div>
